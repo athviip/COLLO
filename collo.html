@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COLLO - Your Student Companion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2332 0%, #0f1419 100%);
+            color: white;
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: rgba(26, 35, 50, 0.8);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+            letter-spacing: -1px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: translateX(4px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+        }
+
+        .nav-item .icon {
+            width: 28px;
+            height: 28px;
+            margin-right: 12px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .services .icon { background: #f59e0b; }
+        .reviews .icon { background: #10b981; }
+        .campus .icon { background: #3b82f6; }
+        .tutoring .icon { background: #8b5cf6; }
+        .transport .icon { background: #ef4444; }
+        .pets .icon { background: #f97316; }
+        .add-service .icon { background: #22c55e; }
+        .profile .icon { background: #6b7280; }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+            padding: 24px 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3);
+        }
+
+        .header-meta {
+            opacity: 0.9;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        .explore-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .explore-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(139, 92, 246, 0.5);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #e5e7eb;
+        }
+
+        .feature-desc {
+            opacity: 0.8;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border: none;
+            padding: 16px 20px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+        }
+
+        .sidebar-right {
+            width: 320px;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .stats-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #6366f1, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .stat-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .points-icon { background: #f59e0b; }
+        .reviews-icon { background: #10b981; }
+        .streak-icon { background: #ef4444; }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .notification-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .trending-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .trending-item:last-child {
+            border-bottom: none;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            color: #fbbf24;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .search-bar::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .location-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(139, 92, 246, 0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #c4b5fd;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: rgba(26, 35, 50, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e5e7eb;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #9ca3af;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .service-type-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .service-type-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .service-type-card:hover {
+            border-color: rgba(139, 92, 246, 0.5);
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .service-type-card.selected {
+            border-color: #8b5cf6;
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        .service-type-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #e5e7eb;
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 14px;
+        }
+
+        .form-input::placeholder, .form-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .amenity-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .amenity-checkbox:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .amenity-checkbox input {
+            accent-color: #8b5cf6;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .file-upload {
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload:hover {
+            border-color: #8b5cf6;
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .file-upload input {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">COLLO</div>
+        
+        <div class="nav-item active services">
+            <div class="icon">🏪</div>
+            LOCAL SERVICES
+        </div>
+        
+        <div class="nav-item reviews">
+            <div class="icon">⭐</div>
+            REVIEWS & RATINGS
+        </div>
+        
+        <div class="nav-item campus">
+            <div class="icon">🏫</div>
+            CAMPUS LIFE
+        </div>
+        
+        <div class="nav-item tutoring">
+            <div class="icon">📚</div>
+            TUTORING
+        </div>
+        
+        <div class="nav-item transport">
+            <div class="icon">🚌</div>
+            TRANSPORT
+        </div>
+        
+        <div class="nav-item pets">
+            <div class="icon">🐕</div>
+            PET ADOPTION
+        </div>
+        
+        <div class="nav-item add-service">
+            <div class="icon">➕</div>
+            ADD SERVICE
+        </div>
+        
+        <div class="nav-item profile">
+            <div class="icon">👤</div>
+            PROFILE
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-meta">← WELCOME TO YOUR STUDENT COMPANION</div>
+            <div class="header-title">Discover Local Services & Campus Life</div>
+            <div class="location-badge">📍 DYPCOE Akurdi, Pune</div>
+            <br><br>
+            <button class="explore-btn">🗺️ EXPLORE SERVICES</button>
+        </div>
+
+        <input type="text" class="search-bar" placeholder="Search for hostels, mess, laundry, tutors...">
+
+        <div class="quick-actions">
+            <button class="action-btn" onclick="findHostels()">
+                🏠 Find Hostels
+            </button>
+            <button class="action-btn" onclick="findMess()">
+                🍽️ Mess Reviews
+            </button>
+            <button class="action-btn" onclick="findServices()">
+                🔧 Local Services
+            </button>
+            <button class="action-btn" onclick="findTutors()">
+                👨‍🏫 Find Tutors
+            </button>
+            <button class="action-btn" onclick="openAddService()" style="background: linear-gradient(135deg, #22c55e, #16a34a);">
+                ➕ Add New Service
+            </button>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card" onclick="openHostels()">
+                <div class="feature-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">🏠</div>
+                <div class="feature-title">Hostel & PG Finder</div>
+                <div class="feature-desc">Find verified hostels and PGs with real student reviews. No broker fees, direct contact with owners.</div>
+            </div>
+
+            <div class="feature-card" onclick="openMess()">
+                <div class="feature-icon" style="background: linear-gradient(135deg, #10b981, #059669);">🍽️</div>
+                <div class="feature-title">Mess & Food Reviews</div>
+                <div class="feature-desc">Rate and review mess food quality, hygiene, and pricing. Find the best food options around campus.</div>
+            </div>
+
+            <div class="feature-card" onclick="openServices()">
+                <div class="feature-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">🔧</div>
+                <div class="feature-title">Local Services</div>
+                <div class="feature-desc">Find trusted local services like laundry, tailoring, mobile repair, and more with student reviews.</div>
+            </div>
+
+            <div class="feature-card" onclick="openTransport()">
+                <div class="feature-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">🚌</div>
+                <div class="feature-title">Transport Guide</div>
+                <div class="feature-desc">Bus routes, timings, fares, and best transport options to reach college and other places.</div>
+            </div>
+
+            <div class="feature-card" onclick="openTutoring()">
+                <div class="feature-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">📚</div>
+                <div class="feature-title">Tutoring Network</div>
+                <div class="feature-desc">Connect with student tutors or offer tutoring services. Subject-wise help from seniors and peers.</div>
+            </div>
+
+            <div class="feature-card" onclick="openPets()">
+                <div class="feature-icon" style="background: linear-gradient(135deg, #f97316, #ea580c);">🐕</div>
+                <div class="feature-title">Pet Adoption</div>
+                <div class="feature-desc">Find pets in need of homes or rehome your pets. Connect with fellow animal-loving students.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar-right">
+        <div class="stats-header">
+            <div class="user-info">
+                <div class="avatar">N</div>
+                <div>
+                    <div style="font-weight: 600;">Nihansh</div>
+                    <div style="font-size: 12px; opacity: 0.7;">AI&DS SY-B</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+            <div class="stat-item">
+                <div class="stat-icon points-icon">⭐</div>
+                <span>125 pts</span>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon reviews-icon">📝</div>
+                <span>8 reviews</span>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon streak-icon">🔥</div>
+                <span>5 day streak</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                🔔 Recent Activity
+            </div>
+            <div class="notification-item">
+                <div class="notification-icon" style="background: #10b981;">✓</div>
+                <div>
+                    <div style="font-weight: 500; font-size: 14px;">New review on ABC Hostel</div>
+                    <div style="font-size: 12px; opacity: 0.7;">2 hours ago</div>
+                </div>
+            </div>
+            <div class="notification-item">
+                <div class="notification-icon" style="background: #f59e0b;">🍽️</div>
+                <div>
+                    <div style="font-weight: 500; font-size: 14px;">Mess menu updated</div>
+                    <div style="font-size: 12px; opacity: 0.7;">5 hours ago</div>
+                </div>
+            </div>
+            <div class="notification-item">
+                <div class="notification-icon" style="background: #8b5cf6;">📚</div>
+                <div>
+                    <div style="font-weight: 500; font-size: 14px;">New tutor available for DSA</div>
+                    <div style="font-size: 12px; opacity: 0.7;">1 day ago</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                📈 Trending Near You
+            </div>
+            <div class="trending-item">
+                <div>
+                    <div style="font-weight: 500; font-size: 14px;">Sunshine PG</div>
+                    <div style="font-size: 12px; opacity: 0.7;">₹8,000/month</div>
+                </div>
+                <div class="rating">
+                    ⭐ 4.5
+                </div>
+            </div>
+            <div class="trending-item">
+                <div>
+                    <div style="font-weight: 500; font-size: 14px;">Quick Laundry Service</div>
+                    <div style="font-size: 12px; opacity: 0.7;">Same day delivery</div>
+                </div>
+                <div class="rating">
+                    ⭐ 4.2
+                </div>
+            </div>
+            <div class="trending-item">
+                <div>
+                    <div style="font-weight: 500; font-size: 14px;">College Mess #1</div>
+                    <div style="font-size: 12px; opacity: 0.7;">₹3,500/month</div>
+                </div>
+                <div class="rating">
+                    ⭐ 3.8
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                🎯 Quick Tips
+            </div>
+            <div style="font-size: 14px; line-height: 1.6; opacity: 0.8;">
+                💡 Always check multiple reviews before choosing a service<br><br>
+                💡 Use the transport guide to save time and money<br><br>
+                💡 Rate and review to help fellow students
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Service Modal -->
+    <div id="addServiceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Add New Service</div>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div id="serviceTypeSelection">
+                <h3 style="margin-bottom: 16px; color: #e5e7eb;">What would you like to add?</h3>
+                <div class="service-type-grid">
+                    <div class="service-type-card" onclick="selectServiceType('hostel')">
+                        <div class="service-type-icon">🏠</div>
+                        <div>Hostel/PG</div>
+                    </div>
+                    <div class="service-type-card" onclick="selectServiceType('mess')">
+                        <div class="service-type-icon">🍽️</div>
+                        <div>Mess</div>
+                    </div>
+                    <div class="service-type-card" onclick="selectServiceType('laundry')">
+                        <div class="service-type-icon">👕</div>
+                        <div>Laundry</div>
+                    </div>
+                    <div class="service-type-card" onclick="selectServiceType('repair')">
+                        <div class="service-type-icon">🔧</div>
+                        <div>Repair Shop</div>
+                    </div>
+                    <div class="service-type-card" onclick="selectServiceType('tutor')">
+                        <div class="service-type-icon">📚</div>
+                        <div>Tutoring</div>
+                    </div>
+                    <div class="service-type-card" onclick="selectServiceType('other')">
+                        <div class="service-type-icon">🏪</div>
+                        <div>Other</div>
+                    </div>
+                </div>
+            </div>
+
+            <form id="addServiceForm" style="display: none;">
+                <div class="form-group">
+                    <label class="form-label">Service Name *</label>
+                    <input type="text" class="form-input" id="serviceName" placeholder="Enter service name" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Contact Person *</label>
+                        <input type="text" class="form-input" id="contactPerson" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone Number *</label>
+                        <input type="tel" class="form-input" id="phoneNumber" placeholder="Contact number" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Address *</label>
+                    <textarea class="form-textarea" id="address" placeholder="Complete address with landmarks" required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Distance from College</label>
+                        <select class="form-select" id="distance">
+                            <option value="">Select distance</option>
+                            <option value="walking">Walking distance (< 500m)</option>
+                            <option value="nearby">Nearby (500m - 2km)</option>
+                            <option value="moderate">Moderate (2km - 5km)</option>
+                            <option value="far">Far (> 5km)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="priceGroup">
+                        <label class="form-label" id="priceLabel">Price Range *</label>
+                        <input type="text" class="form-input" id="price" placeholder="e.g., ₹8000/month" required>
+                    </div>
+                </div>
+
+                <div class="form-group" id="amenitiesGroup" style="display: none;">
+                    <label class="form-label">Amenities</label>
+                    <div class="amenities-grid" id="amenitiesList">
+                        <!-- Amenities will be populated based on service type -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Description *</label>
+                    <textarea class="form-textarea" id="description" placeholder="Describe the service, quality, special features, etc." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Upload Photos</label>
+                    <div class="file-upload" onclick="document.getElementById('photos').click()">
+                        <div>📸 Click to upload photos (optional)</div>
+                        <div style="font-size: 12px; opacity: 0.7; margin-top: 8px;">JPG, PNG up to 5MB each</div>
+                        <input type="file" id="photos" multiple accept="image/*">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Your Role</label>
+                    <select class="form-select" id="userRole" required>
+                        <option value="">Select your role</option>
+                        <option value="student">Student (experienced user)</option>
+                        <option value="owner">Service Owner/Manager</option>
+                        <option value="agent">Authorized Agent</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">Add Service</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Navigation functionality
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Update main content based on selection
+                if (this.classList.contains('add-service')) {
+                    openAddService();
+                } else {
+                    updateMainContent(this.classList[1]);
+                }
+            });
+        });
+
+        function updateMainContent(section) {
+            const header = document.querySelector('.header-title');
+            const headerMeta = document.querySelector('.header-meta');
+            
+            switch(section) {
+                case 'services':
+                    header.textContent = 'Discover Local Services & Campus Life';
+                    headerMeta.textContent = '← WELCOME TO YOUR STUDENT COMPANION';
+                    break;
+                case 'reviews':
+                    header.textContent = 'Reviews & Ratings Hub';
+                    headerMeta.textContent = '← STUDENT REVIEWS & RECOMMENDATIONS';
+                    break;
+                case 'campus':
+                    header.textContent = 'Campus Life & Navigation';
+                    headerMeta.textContent = '← COLLEGE INFO & EVENTS';
+                    break;
+                case 'tutoring':
+                    header.textContent = 'Find Tutors & Study Groups';
+                    headerMeta.textContent = '← ACADEMIC SUPPORT NETWORK';
+                    break;
+                case 'transport':
+                    header.textContent = 'Transport Guide & Routes';
+                    headerMeta.textContent = '← BUS & TRAIN INFORMATION';
+                    break;
+                case 'pets':
+                    header.textContent = 'Pet Adoption Network';
+                    headerMeta.textContent = '← FIND YOUR FURRY FRIEND';
+                    break;
+            }
+        }
+
+        // Add Service Modal Functions
+        let selectedServiceType = '';
+
+        function openAddService() {
+            document.getElementById('addServiceModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('addServiceModal').classList.remove('show');
+            document.body.style.overflow = 'auto';
+            resetForm();
+        }
+
+        function selectServiceType(type) {
+            selectedServiceType = type;
+            
+            // Update UI
+            document.querySelectorAll('.service-type-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.target.closest('.service-type-card').classList.add('selected');
+            
+            // Hide selection and show form
+            setTimeout(() => {
+                document.getElementById('serviceTypeSelection').style.display = 'none';
+                document.getElementById('addServiceForm').style.display = 'block';
+                setupFormForServiceType(type);
+            }, 300);
+        }
+
+        function setupFormForServiceType(type) {
+            const priceLabel = document.getElementById('priceLabel');
+            const amenitiesGroup = document.getElementById('amenitiesGroup');
+            const amenitiesList = document.getElementById('amenitiesList');
+            
+            // Reset amenities
+            amenitiesList.innerHTML = '';
+            
+            switch(type) {
+                case 'hostel':
+                    priceLabel.textContent = 'Monthly Rent *';
+                    document.getElementById('price').placeholder = 'e.g., ₹8000/month';
+                    amenitiesGroup.style.display = 'block';
+                    amenitiesList.innerHTML = `
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="wifi"> Wi-Fi
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="laundry"> Laundry
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="meals"> Meals
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="ac"> AC/Cooler
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="parking"> Parking
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="security"> Security
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="backup"> Power Backup
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="water"> 24/7 Water
+                        </label>
+                    `;
+                    break;
+                case 'mess':
+                    priceLabel.textContent = 'Monthly Rate *';
+                    document.getElementById('price').placeholder = 'e.g., ₹3500/month';
+                    amenitiesGroup.style.display = 'block';
+                    amenitiesList.innerHTML = `
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="veg"> Pure Veg
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="nonveg"> Non-Veg
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="jain"> Jain Food
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="tiffin"> Tiffin Service
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="breakfast"> Breakfast
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="dinner"> Dinner
+                        </label>
+                    `;
+                    break;
+                case 'laundry':
+                    priceLabel.textContent = 'Price Range *';
+                    document.getElementById('price').placeholder = 'e.g., ₹5-8 per piece';
+                    amenitiesGroup.style.display = 'block';
+                    amenitiesList.innerHTML = `
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="pickup"> Home Pickup
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="delivery"> Home Delivery
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="ironing"> Ironing
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="drycleaning"> Dry Cleaning
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="sameday"> Same Day
+                        </label>
+                    `;
+                    break;
+                case 'repair':
+                    priceLabel.textContent = 'Price Range *';
+                    document.getElementById('price').placeholder = 'e.g., ₹100-500';
+                    amenitiesGroup.style.display = 'block';
+                    amenitiesList.innerHTML = `
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="mobile"> Mobile Repair
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="laptop"> Laptop Repair
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="warranty"> Warranty
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="pickup"> Pickup Service
+                        </label>
+                    `;
+                    break;
+                case 'tutor':
+                    priceLabel.textContent = 'Hourly Rate *';
+                    document.getElementById('price').placeholder = 'e.g., ₹200/hour';
+                    amenitiesGroup.style.display = 'block';
+                    amenitiesList.innerHTML = `
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="online"> Online Classes
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="offline"> Offline Classes
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="group"> Group Sessions
+                        </label>
+                        <label class="amenity-checkbox">
+                            <input type="checkbox" name="amenities" value="notes"> Study Material
+                        </label>
+                    `;
+                    break;
+                default:
+                    priceLabel.textContent = 'Price Range *';
+                    document.getElementById('price').placeholder = 'Enter price range';
+                    amenitiesGroup.style.display = 'none';
+            }
+        }
+
+        function resetForm() {
+            selectedServiceType = '';
+            document.getElementById('serviceTypeSelection').style.display = 'block';
+            document.getElementById('addServiceForm').style.display = 'none';
+            document.getElementById('addServiceForm').reset();
+            document.querySelectorAll('.service-type-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+        }
+
+        // Form submission
+        document.getElementById('addServiceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            formData.append('serviceType', selectedServiceType);
+            formData.append('serviceName', document.getElementById('serviceName').value);
+            formData.append('contactPerson', document.getElementById('contactPerson').value);
+            formData.append('phoneNumber', document.getElementById('phoneNumber').value);
+            formData.append('address', document.getElementById('address').value);
+            formData.append('distance', document.getElementById('distance').value);
+            formData.append('price', document.getElementById('price').value);
+            formData.append('description', document.getElementById('description').value);
+            formData.append('userRole', document.getElementById('userRole').value);
+            
+            // Get selected amenities
+            const selectedAmenities = Array.from(document.querySelectorAll('input[name="amenities"]:checked'))
+                .map(checkbox => checkbox.value);
+            formData.append('amenities', JSON.stringify(selectedAmenities));
+            
+            // Get uploaded files
+            const photos = document.getElementById('photos').files;
+            for (let i = 0; i < photos.length; i++) {
+                formData.append('photos', photos[i]);
+            }
+            
+            // Simulate submission
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Adding Service...';
+            
+            setTimeout(() => {
+                alert(`✅ Service Added Successfully!\n\n${document.getElementById('serviceName').value} has been added to COLLO.\n\nIt will be reviewed and published within 24 hours.\n\nThank you for contributing to the student community! 🎉`);
+                closeModal();
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Add Service';
+                
+                // Add points for contribution
+                const points = document.querySelector('.points-icon').nextElementSibling;
+                const currentPoints = parseInt(points.textContent);
+                points.textContent = (currentPoints + 25) + ' pts';
+                
+                // Show notification
+                showNotification('🎉 +25 points for adding a service!', 'success');
+            }, 2000);
+        });
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #ef4444, #dc2626)'};
+                color: white;
+                padding: 16px 24px;
+                border-radius: 12px;
+                font-weight: 500;
+                z-index: 1001;
+                animation: slideIn 0.3s ease;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 4000);
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('addServiceModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Quick action functions with preview modals
+        function findHostels() {
+            showServicePreview('hostel');
+        }
+
+        function findMess() {
+            showServicePreview('mess');
+        }
+
+        function findServices() {
+            showServicePreview('services');
+        }
+
+        function findTutors() {
+            showServicePreview('tutor');
+        }
+
+        function showServicePreview(type) {
+            const previews = {
+                hostel: {
+                    title: '🏠 Available Hostels & PGs',
+                    items: [
+                        { name: 'Sunshine PG', price: '₹8,000/month', rating: 4.5, distance: 'Walking distance', amenities: 'Wi-Fi, Meals, Laundry' },
+                        { name: 'Student Residency', price: '₹7,500/month', rating: 4.2, distance: 'Nearby', amenities: 'Wi-Fi, AC, Security' },
+                        { name: 'Green Valley Hostel', price: '₹9,000/month', rating: 4.7, distance: 'Walking distance', amenities: 'Wi-Fi, Meals, Gym, Laundry' }
+                    ]
+                },
+                mess: {
+                    title: '🍽️ Mess & Food Services',
+                    items: [
+                        { name: 'College Mess #1', price: '₹3,500/month', rating: 3.8, distance: 'On Campus', amenities: 'Pure Veg, Breakfast, Dinner' },
+                        { name: 'Homely Food Corner', price: '₹4,000/month', rating: 4.3, distance: 'Walking distance', amenities: 'Veg & Non-Veg, Tiffin' },
+                        { name: 'South Indian Mess', price: '₹3,200/month', rating: 4.1, distance: 'Nearby', amenities: 'Pure Veg, Jain Options' }
+                    ]
+                },
+                services: {
+                    title: '🔧 Local Services',
+                    items: [
+                        { name: 'Quick Laundry Service', price: '₹6-8/piece', rating: 4.2, distance: 'Nearby', amenities: 'Pickup, Delivery, Ironing' },
+                        { name: 'Mobile Care Center', price: '₹200-800', rating: 4.5, distance: 'Walking distance', amenities: 'All Brands, Warranty' },
+                        { name: 'Student Tailor Shop', price: '₹50-200', rating: 4.0, distance: 'Walking distance', amenities: 'Quick Service, Alterations' }
+                    ]
+                },
+                tutor: {
+                    title: '📚 Available Tutors',
+                    items: [
+                        { name: 'Rahul Sharma - DSA', price: '₹250/hour', rating: 4.8, distance: 'Online/Offline', amenities: 'Online, Notes, Group' },
+                        { name: 'Priya Verma - Mathematics', price: '₹200/hour', rating: 4.6, distance: 'Offline', amenities: 'Offline, Study Material' },
+                        { name: 'Amit Patel - Web Dev', price: '₹300/hour', rating: 4.7, distance: 'Online', amenities: 'Online, Projects, Group' }
+                    ]
+                }
+            };
+
+            const preview = previews[type];
+            let itemsHTML = preview.items.map(item => `
+                <div style="background: rgba(255,255,255,0.05); padding: 16px; border-radius: 12px; margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
+                        <div>
+                            <div style="font-weight: 600; font-size: 16px;">${item.name}</div>
+                            <div style="color: #fbbf24; margin: 4px 0;">⭐ ${item.rating}</div>
+                            <div style="font-size: 14px; opacity: 0.8;">📍 ${item.distance}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="color: #10b981; font-weight: 600;">${item.price}</div>
+                        </div>
+                    </div>
+                    <div style="font-size: 13px; opacity: 0.7; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 8px; margin-top: 8px;">
+                        ${item.amenities}
+                    </div>
+                    <button onclick="viewDetails('${item.name}')" style="margin-top: 8px; padding: 8px 16px; background: linear-gradient(135deg, #6366f1, #8b5cf6); border: none; border-radius: 8px; color: white; cursor: pointer; width: 100%;">
+                        View Details & Contact
+                    </button>
+                </div>
+            `).join('');
+
+            showCustomModal(preview.title, itemsHTML);
+        }
+
+        function showCustomModal(title, content) {
+            const modal = document.createElement('div');
+            modal.className = 'modal show';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title">${title}</div>
+                        <button class="close-btn" onclick="this.closest('.modal').remove(); document.body.style.overflow='auto';">&times;</button>
+                    </div>
+                    <div style="max-height: 500px; overflow-y: auto;">
+                        ${content}
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.remove();
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+
+        function viewDetails(serviceName) {
+            alert(`📱 Contact Details for ${serviceName}\n\n` +
+                  `Phone: +91 98765 43210\n` +
+                  `Address: Near DYPCOE, Akurdi\n\n` +
+                  `📝 Student Reviews:\n` +
+                  `"Great service, very reliable!" - Raj M.\n` +
+                  `"Good value for money" - Sneha K.\n\n` +
+                  `💡 Tip: Mention you found them on COLLO for student discount!`);
+        }
+
+        // Feature card functions with enhanced modals
+        function openHostels() {
+            showServicePreview('hostel');
+        }
+
+        function openMess() {
+            showServicePreview('mess');
+        }
+
+        function openServices() {
+            showServicePreview('services');
+        }
+
+        function openTransport() {
+            const transportHTML = `
+                <div style="background: rgba(255,255,255,0.05); padding: 16px; border-radius: 12px; margin-bottom: 12px;">
+                    <h4 style="margin-bottom: 12px;">🚌 Bus Routes to DYPCOE</h4>
+                    <div style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <strong>Route 1:</strong> Pune Station → Shivajinagar → Kothrud → Akurdi<br>
+                        <span style="opacity: 0.7;">Bus No: 106, 107 | Fare: ₹15-20 | Time: 45 mins</span>
+                    </div>
+                    <div style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <strong>Route 2:</strong> Swargate → Karve Road → PCMC → Akurdi<br>
+                        <span style="opacity: 0.7;">Bus No: 203, 210 | Fare: ₹18-25 | Time: 55 mins</span>
+                    </div>
+                    <div style="padding: 8px 0;">
+                        <strong>Route 3:</strong> Katraj → Deccan → Chinchwad → Akurdi<br>
+                        <span style="opacity: 0.7;">Bus No: 302 | Fare: ₹25-30 | Time: 1 hour</span>
+                    </div>
+                </div>
+                <div style="background: rgba(255,255,255,0.05); padding: 16px; border-radius: 12px; margin-bottom: 12px;">
+                    <h4 style="margin-bottom: 12px;">🚊 Metro/Train Info</h4>
+                    <div style="padding: 8px 0;">
+                        <strong>Nearest Metro Station:</strong> PCMC Bhavan (2.5 km)<br>
+                        <strong>Nearest Railway:</strong> Akurdi Station (1.2 km)<br>
+                        <span style="opacity: 0.7;">💡 Use PMPML app for live bus tracking</span>
+                    </div>
+                </div>
+                <div style="background: rgba(255,255,255,0.05); padding: 16px; border-radius: 12px;">
+                    <h4 style="margin-bottom: 12px;">🚗 Auto/Cab Rates</h4>
+                    <div style="opacity: 0.8;">
+                        <strong>Auto:</strong> ₹10-12/km (Minimum ₹25)<br>
+                        <strong>Ola/Uber:</strong> ₹8-10/km<br>
+                        <strong>Shared Auto:</strong> ₹5-8/person
+                    </div>
+                </div>
+            `;
+            showCustomModal('🚌 Transport Guide', transportHTML);
+        }
+
+        function openTutoring() {
+            showServicePreview('tutor');
+        }
+
+        function openPets() {
+            const petsHTML = `
+                <div style="background: rgba(255,255,255,0.05); padding: 16px; border-radius: 12px; margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                        <div>
+                            <h4>🐕 Golden Retriever Puppy</h4>
+                            <div style="opacity: 0.8; font-size: 14px;">Age: 3 months | Vaccinated</div>
+                        </div>
+                        <div style="color: #10b981; font-weight: 600;">Free</div>
+                    </div>
+                    <p style="opacity: 0.8; font-size: 14px; margin-bottom: 8px;">
+                        Looking for a loving home. Very friendly and playful. All vaccinations done.
+                    </p>
+                    <div style="font-size: 13px; opacity: 0.7;">📍 Posted by: Rahul (AI&DS) | 2 days ago</div>
+                    <button onclick="alert('Contact: +91 98765 43210')" style="margin-top: 8px; padding: 8px 16px; background: linear-gradient(135deg, #6366f1, #8b5cf6); border: none; border-radius: 8px; color: white; cursor: pointer; width: 100%;">
+                        Contact Owner
+                    </button>
+                </div>
+                <div style="background: rgba(255,255,255,0.05); padding: 16px; border-radius: 12px; margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                        <div>
+                            <h4>🐈 Persian Cat</h4>
+                            <div style="opacity: 0.8; font-size: 14px;">Age: 1 year | Neutered</div>
+                        </div>
+                        <div style="color: #10b981; font-weight: 600;">₹3,000</div>
+                    </div>
+                    <p style="opacity: 0.8; font-size: 14px; margin-bottom: 8px;">
+                        Moving to hostel, can't keep pet. Very clean and trained. Includes cat bed and toys.
+                    </p>
+                    <div style="font-size: 13px; opacity: 0.7;">📍 Posted by: Priya (IT) | 5 days ago</div>
+                    <button onclick="alert('Contact: +91 98765 54321')" style="margin-top: 8px; padding: 8px 16px; background: linear-gradient(135deg, #6366f1, #8b5cf6); border: none; border-radius: 8px; color: white; cursor: pointer; width: 100%;">
+                        Contact Owner
+                    </button>
+                </div>
+                <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); padding: 16px; border-radius: 12px;">
+                    <h4 style="color: #22c55e; margin-bottom: 8px;">🐾 Adoption Guidelines</h4>
+                    <ul style="opacity: 0.9; font-size: 14px; line-height: 1.8;">
+                        <li>Meet the pet before adopting</li>
+                        <li>Check vaccination records</li>
+                        <li>Ensure you can care for the pet</li>
+                        <li>Consider hostel pet policies</li>
+                    </ul>
+                </div>
+            `;
+            showCustomModal('🐾 Pet Adoption', petsHTML);
+        }
+
+        // Search functionality with live suggestions
+        const searchData = {
+            hostels: ['Sunshine PG', 'Student Residency', 'Green Valley Hostel', 'Boys Hostel Near Campus', 'Girls PG Akurdi'],
+            mess: ['College Mess #1', 'Homely Food Corner', 'South Indian Mess', 'Gujarati Thali', 'North Indian Mess'],
+            services: ['Quick Laundry Service', 'Mobile Care Center', 'Student Tailor Shop', 'Laptop Repair Hub', 'Stationery World'],
+            tutors: ['DSA Tutor', 'Mathematics Tutor', 'Web Development Tutor', 'Python Programming', 'Database Tutor']
+        };
+
+        document.querySelector('.search-bar').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase().trim();
+            
+            if (query.length > 1) {
+                let suggestions = [];
+                
+                Object.values(searchData).forEach(category => {
+                    category.forEach(item => {
+                        if (item.toLowerCase().includes(query)) {
+                            suggestions.push(item);
+                        }
+                    });
+                });
+
+                if (suggestions.length > 0 && query.length > 2) {
+                    showSearchSuggestions(suggestions.slice(0, 5));
+                } else {
+                    hideSearchSuggestions();
+                }
+            } else {
+                hideSearchSuggestions();
+            }
+        });
+
+        function showSearchSuggestions(suggestions) {
+            hideSearchSuggestions(); // Remove existing
+
+            const searchBar = document.querySelector('.search-bar');
+            const container = document.createElement('div');
+            container.id = 'searchSuggestions';
+            container.style.cssText = `
+                position: absolute;
+                top: ${searchBar.offsetTop + searchBar.offsetHeight + 5}px;
+                left: ${searchBar.offsetLeft}px;
+                width: ${searchBar.offsetWidth}px;
+                background: rgba(26, 35, 50, 0.98);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 12px;
+                padding: 8px;
+                z-index: 100;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            `;
+
+            suggestions.forEach(item => {
+                const div = document.createElement('div');
+                div.textContent = item;
+                div.style.cssText = `
+                    padding: 10px 12px;
+                    cursor: pointer;
+                    border-radius: 8px;
+                    transition: background 0.2s ease;
+                `;
+                div.onmouseover = () => div.style.background = 'rgba(99, 102, 241, 0.2)';
+                div.onmouseout = () => div.style.background = 'transparent';
+                div.onclick = () => {
+                    document.querySelector('.search-bar').value = item;
+                    hideSearchSuggestions();
+                    searchForItem(item);
+                };
+                container.appendChild(div);
+            });
+
+            document.querySelector('.main-content').appendChild(container);
+        }
+
+        function hideSearchSuggestions() {
+            const existing = document.getElementById('searchSuggestions');
+            if (existing) existing.remove();
+        }
+
+        function searchForItem(item) {
+            alert(`🔍 Showing details for: ${item}\n\nThis would display complete information about ${item} including reviews, ratings, contact details, and photos.`);
+        }
+
+        // Click outside to hide suggestions
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.search-bar') && !e.target.closest('#searchSuggestions')) {
+                hideSearchSuggestions();
+            }
+        });
+
+        // Add some dynamic updates
+        setInterval(() => {
+            const points = document.querySelector('.points-icon').nextElementSibling;
+            const currentPoints = parseInt(points.textContent);
+            if (Math.random() > 0.95) {
+                points.textContent = (currentPoints + 5) + ' pts';
+                
+                // Add a notification
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(135deg, #10b981, #059669);
+                    color: white;
+                    padding: 12px 20px;
+                    border-radius: 8px;
+                    font-weight: 500;
+                    z-index: 1000;
+                    animation: slideIn 0.3s ease;
+                `;
+                notification.textContent = '+5 points earned! 🎉';
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            }
+        }, 5000);
+
+        // CSS animation for notifications
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
